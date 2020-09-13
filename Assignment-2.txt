@@ -115,49 +115,245 @@ cut -b 1-9,38- cat.txt
 
 
 7.Write a shell script to print all files name and size greater than 5K
+->
+find -type f -name "*.sh" -size +5k -ls
 
 
 1. Write a script To check given year is leap or not.
 ->
 
+
 2. Write a script to print day of the week using
 a) elif	
 ->
+echo "Enter Number : "
+read n
+
+if (( "$n" == 1 ))
+then
+        echo "Sunday"
+elif (( "$n" == 2 ))
+then
+        echo "Monday"
+elif (( "$n" == 3 ))
+then
+        echo "Tuesday"
+elif (( "$n" == 4 ))
+then
+        echo "Wednesday"
+elif (( "$n" == 5 ))
+then
+        echo "Thursday"
+elif (( "$n" == 6 ))
+then
+        echo "Friday"
+elif (( "$n" == 7 ))
+then    echo "Saturday"
+
+else
+        echo "Enter No. between 1-7 !!!"
+fi
 
 
-b) case 
+
+b) case
+->
+#!/bin/bash
+
+echo "Enter Number : "
+read n
+
+case $n in
+        1)
+                echo "Monday"
+                ;;
+        2)
+                echo "Tuesday"
+                ;;
+        3)
+                echo "Wednesday"
+                ;;
+        4)
+                echo "Thursday"
+                ;;
+        5)
+                echo "Friday"
+                ;;
+        6)
+                echo "Saturday"
+                ;;
+        7)
+                echo "Sunday"
+                ;;
+        *)
+                echo "Enter between 1-7 !!!"
+                ;;
+esac
+
+ 
 3. a) Write a script to find biggest of three no.s
-   b) To find avg of 3 no.s, read no.s from keyboard
-4. Write a program to check wahether given no.is even or odd
+->
+#!/bin/bash
+echo "Enter the 1st Number : "
+read no1
+echo "Enter the 2st Number : "
+read no2
+echo "Enter the 3st Number : "
+read no3
+
+if [ (( no1 -gt no2 ) && ( no1 -gt no3 )) ]
+then
+        echo "Number $no1 is Greater..."
+elif [ (no2 > no1 ) && ( no2 > no3 ) ]
+then
+        echo "Number $no2 is Greater..."
+elif [ (no1 == no2 == no3 ) ]
+then
+        echo "All three Number are equals..."
+else
+        echo "Number $no3 is Greater..."
+fi
+
+
+  b) To find avg of 3 no.s, read no.s from keyboard
+->
+#!/bin/bash
+
+echo "Enter 1st Number : "
+read n1
+echo "Enter 2nd Number : "
+read n2
+echo "Enter 3rd Number : "
+read n3
+sum=0
+(( sum=n1 + n2 + n3 ))
+((sum=sum/3))
+printf '%0.3f' "$sum"
+
+
+
+4. Write a program to check whether given no.is even or odd
+->
+#!/bin/bash
+
+echo "Enter the Number : "
+read n
+
+if (( "$n" % 2 == 0 ))
+then
+        echo "Number $n is Even..."
+else
+        echo "Number $n is Odd..."
+fi
+
+
 5. Write a program to print calendar of current month in next year,previous years.
 	For eg:-sep 2014,sep 2012 if current month is sep 2013	
+->
+
+
+
 6. Write a program to find sum and product of two no.s using 
-	a) let 
-	b)expr
-	c)bc	
+a) let 
+->
+#!/bin/bash
+let "a = 10 " "b = 20"
+echo "Addition : $((a+b))"
+echo "Multiplcation : $((a*b))"
+
+b)expr
+->
+#!/bin/bash
+echo "Enter two numbers : "
+read x
+read y
+
+sum=`expr $x + $y`
+mul=`expr $x \* $y`
+printf  "Sum = $sum\nProduct = $mul\n"
+
+
+c)bc	
+->
+echo "Enter two numbers : "
+read x
+read y
+
+sum=`echo "$x + $y" | bc `
+mul=`echo "$x * $y" | bc `
+printf  "Sum = $sum\nProduct = $mul\n"
+
+
 7. Write a script to generate Fibonacci series.
-8. Write a shell script to reverse the single strings. 
+->
+echo 'give one number: '
+read n
+a=0
+b=1
+for (( i=0; i<n; i++  ))
+do
+        echo -n "$a "
+        c=$((a + b))
+        a=$b
+        b=$c
+done
+echo
+
+
+8. Write a shell script to reverse the single strings.
+->
+echo "Enter a String :"
+read str1
+echo  $str1 | rev
+
+
+
 9.Write a shell script to reverse the list of strings and reverse each string further in the list.
+->
+echo 'Enter the strings:'
+read str1
+for val in $str1
+do
+        echo $val | rev
+done
+
+
 10. Write a shell script to print the reverse of an input number.
+->
+echo 'Give Input number :'
+read inp
+echo $inp | rev
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1.Write a shell script to validate password strength. Here are a few assumptions for the password string.
+11. Write a shell script to validate password strength. Here are a few assumptions for the password string.
 Length  – minimum of 8 characters.
 Contain both alphabet and number.
 Include both the small and capital case letters.
 If the password doesn’t comply with any of the above conditions, then the script should report it as a <Weak Password>.
 
+->
+echo "enter the password"
+read password
+
+len="${#password}"
+if test $len -ge 8 ; then
+    echo "$password" | grep -q [0-9]
+     if test $? -eq 0 ; then
+           echo "$password" | grep -q [A-Z]
+
+                if test $? -eq 0 ; then
+                    echo "$password" | grep -q [a-z]
+                      if test $? -eq 0 ; then
+                       echo "Strong password"
+                   else
+                       echo "weak password"
+                   fi
+            else
+               echo "weak password"
+            fi
+     else
+       echo "weak password"
+     fi
+else
+    echo "weak password"
+fi
